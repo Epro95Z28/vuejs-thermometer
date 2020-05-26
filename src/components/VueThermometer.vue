@@ -16,7 +16,12 @@
       <!-- this is the bar/temp height -->
       <rect :fill="defaultOptions.thermo.color" stroke="#000000" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke-dashoffset="0" ry="8" rx="8" :x="baseXOffset + 3" :y="thermoOffset" :width="thermoWidth" :height="thermoHeight" id="svg_18"/>
       <!-- this is the temp values -->
-      <text v-show="defaultOptions.text.textEnabled" v-for="(tick, index) in ticks" :key="index" :id="'svg_19' + index" :fill="defaultOptions.text.color" :stroke="defaultOptions.text.color" stroke-width="0" :x="textSpacing" :y="offsetText(index)" :font-size="defaultOptions.text.fontSize" :font-family="defaultOptions.text.fontFamily" text-anchor="middle" xml:space="preserve">{{ tick }}{{ scale}}</text>
+      <div v-if="this.defaultOptions.text.reverseUnits">
+        <text  v-show="defaultOptions.text.textEnabled" v-for="(tick, index) in ticks" :key="index" :id="'svg_19' + index" :fill="defaultOptions.text.color" :stroke="defaultOptions.text.color" stroke-width="0" :x="textSpacing" :y="offsetText(index)" :font-size="defaultOptions.text.fontSize" :font-family="defaultOptions.text.fontFamily" text-anchor="middle" xml:space="preserve">{{ scale }}{{ tick}}</text>
+      </div>
+      <div v-else>
+        <text  v-show="defaultOptions.text.textEnabled" v-for="(tick, index) in ticks" :key="index" :id="'svg_19' + index" :fill="defaultOptions.text.color" :stroke="defaultOptions.text.color" stroke-width="0" :x="textSpacing" :y="offsetText(index)" :font-size="defaultOptions.text.fontSize" :font-family="defaultOptions.text.fontFamily" text-anchor="middle" xml:space="preserve">{{ tick }}{{ scale}}</text>
+      </div>
     </g>
     </svg>
   </div>
@@ -60,6 +65,7 @@ export default {
     this.defaultOptions = {
       text: {
         color: 'black',
+        reverseUnits: false,
         fontSize: 10,
         textAdjustmentY: 2,
         fontFamily: 'Arial',
